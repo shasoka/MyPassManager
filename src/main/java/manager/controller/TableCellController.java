@@ -64,7 +64,6 @@ public class TableCellController implements Initializable {
 
     private void showBtnHandler(ActionEvent event) {
         if (hidden) {
-            System.out.println(view.getItem().length());
             try {
                 view.setText(Encoder.decrypt(view.getItem()));
             } catch (Exception e) {

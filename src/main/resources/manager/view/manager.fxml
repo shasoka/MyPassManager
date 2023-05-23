@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="manager.controller.ManagerController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="manager.controller.ManagerController">
     <MenuBar fx:id="menuGeneral" VBox.vgrow="NEVER">
         <Menu fx:id="menuProfile" mnemonicParsing="false" text="Profile">
             <MenuItem fx:id="subMenuProfile" mnemonicParsing="false" text="Change pin" />

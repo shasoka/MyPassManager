@@ -3,6 +3,7 @@ package manager.model;
 import manager.encoder.Encoder;
 import org.sqlite.JDBC;
 
+import static manager.encoder.Encoder.encrypt;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,6 +46,7 @@ public class PassDbModel {
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next()) {
                 password = resultSet.getString("password");
+                System.out.println("Pin successfully checked.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,23 +55,53 @@ public class PassDbModel {
         return pin.equals(password);
     }
 
+    public int getTableSize() {
+        try (Statement statement = connection.createStatement()) {
+            String query = "SELECT COUNT(*) AS count FROM passwords";
+            ResultSet resultSet = statement.executeQuery(query);
+            if (resultSet.next()) {
+                System.out.println("Size successfully counted.");
+                return resultSet.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
     public List<Password> getPasswords() {
-        try (Statement statement = this.connection.createStatement()) {
-            Encoder encoder = new Encoder();
+        try (Statement statement = connection.createStatement()) {
             List<Password> passwords = new ArrayList<>();
             String query = "SELECT id, name, login, password FROM passwords WHERE id <> 0";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
-                passwords.add(new Password(resultSet.getInt("id"),
+                Password password = new Password(resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getString("login"),
-                        resultSet.getString("password")));
-//                        encoder.decrypt(resultSet.getString("password"))));
+                        resultSet.getString("password"));
+                passwords.add(password);
+                System.out.printf("Successfully got row: %s\n", password.toString());
             }
             return passwords;
         } catch (SQLException e) {
             e.printStackTrace();
             return Collections.emptyList();
+        }
+    }
+
+    public void addPassword(String name, String login, String password) {
+        String query = "INSERT INTO passwords (name, login, password) VALUES (?, ?, ?)";
+        try (PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setString(1, name);
+            statement.setString(2, login);
+            statement.setString(3, password);
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Row successfully added.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

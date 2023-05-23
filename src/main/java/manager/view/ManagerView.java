@@ -17,7 +17,7 @@ import java.util.List;
 public class ManagerView extends View {
 
     public ManagerView(Stage stage) {
-        super(stage);
+        super(stage, null);
     }
 
     @Override
@@ -40,6 +40,11 @@ public class ManagerView extends View {
 
     public void displayTable(List<Password> updData, TableView<Password> table) {
         table.setItems(FXCollections.observableArrayList(updData));
+        table.refresh();
+    }
+
+    public void updateTable(Password password, TableView<Password> table) {
+        table.getItems().add(password);
         table.refresh();
     }
 

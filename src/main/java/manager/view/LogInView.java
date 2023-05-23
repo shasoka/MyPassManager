@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class LogInView extends View {
 
     public LogInView(Stage stage) {
-        super(stage);
+        super(stage, null);
     }
 
     @Override

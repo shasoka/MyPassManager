@@ -2,6 +2,8 @@ package manager.view;
 
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import manager.controller.DialogController;
+import manager.controller.ManagerController;
 import manager.model.Password;
 
 import java.io.IOException;
@@ -12,8 +14,19 @@ public abstract class View {
 
     protected Stage stage;
 
-    public View(Stage stage) {
+    protected ManagerController parent;
+
+    public ManagerController getParent() {
+        return parent;
+    }
+
+    public void setParent(ManagerController parent) {
+        this.parent = parent;
+    }
+
+    public View(Stage stage, ManagerController parent) {
         this.stage = stage;
+        this.parent = parent;
     }
 
     public Stage getStage() {
@@ -27,5 +40,7 @@ public abstract class View {
     public void show() throws IOException, SQLException{};
 
     public void displayTable(List<Password> udpData, TableView<Password> table) {};
+
+    public void updateTable(Password password, TableView<Password> table) {}
 
 }

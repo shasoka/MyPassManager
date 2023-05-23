@@ -27,14 +27,4 @@ public class Encoder {
         return new String(decryptedBytes, StandardCharsets.UTF_8);
     }
 
-    public static void main(String[] args) throws Exception {
-        String password = "arkadii2608";
-        String encryptedPassword = encrypt(password);
-
-        System.out.println("Encrypted Password: " + encryptedPassword);
-
-        String decryptedPassword = decrypt(encryptedPassword);
-        System.out.println("Decrypted Password: " + decryptedPassword);
-    }
-
 }

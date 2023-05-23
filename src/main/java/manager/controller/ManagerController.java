@@ -42,7 +42,8 @@ public class ManagerController extends Controller implements Initializable {
     private MenuItem subMenuProfile;
 
     @FXML
-    private TableView<Password> table;
+    // protected для того, чтобы видеть это поле из дочерних контроллеров
+    protected TableView<Password> table;
 
     @FXML
     private TableColumn<Password, Integer> idColumn;
@@ -85,15 +86,15 @@ public class ManagerController extends Controller implements Initializable {
             }
         });
 
-        updateView();
+        displayInitialData();
     }
 
     private void addBtnHandler(ActionEvent event) throws IOException, SQLException {
-        DialogView childView = new DialogView(view.getStage(), (ManagerView) view);
+        DialogView childView = new DialogView(view.getStage(), this);
         childView.show();
     }
 
-    private void updateView() {
+    private void displayInitialData() {
         List<Password> udpData = model.getPasswords();
         view.displayTable(udpData, table);
     }
