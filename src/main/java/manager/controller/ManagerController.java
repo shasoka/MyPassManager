@@ -1,96 +1,72 @@
 package manager.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import manager.model.PassDbModel;
 import manager.model.Password;
+import manager.view.DialogView;
+import manager.view.ManagerView;
 import manager.view.TableCellView;
 import manager.view.View;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ManagerController implements Initializable {
-
-    private View view;
-
-    private PassDbModel model;
+public class ManagerController extends Controller implements Initializable {
 
     @FXML
-    public MenuBar menuGeneral;
+    private MenuBar menuGeneral;
 
     @FXML
-    public Menu menuProfile;
+    private Menu menuProfile;
 
     @FXML
-    public Menu menuIE;
+    private Menu menuIE;
 
     @FXML
-    public MenuItem subMenuE;
+    private MenuItem subMenuE;
 
     @FXML
-    public MenuItem subMenuI;
+    private MenuItem subMenuI;
 
     @FXML
-    public Menu menuHelp;
+    private Menu menuHelp;
 
     @FXML
-    public MenuItem subMenuProfile;
+    private MenuItem subMenuProfile;
 
     @FXML
-    public TableView<Password> table;
+    private TableView<Password> table;
 
     @FXML
-    public TableColumn<Password, Integer> idColumn;
+    private TableColumn<Password, Integer> idColumn;
 
     @FXML
-    public TableColumn<Password, String> nameColumn;
+    private TableColumn<Password, String> nameColumn;
 
     @FXML
-    public TableColumn<Password, String> loginColumn;
+    private TableColumn<Password, String> loginColumn;
 
     @FXML
-    public TableColumn<Password, String> passwordColumn;
+    private TableColumn<Password, String> passwordColumn;
 
     @FXML
-    public Button btnAdd;
+    private Button btnAdd;
 
     @FXML
-    public Button btnEdit;
+    private Button btnEdit;
 
     @FXML
-    public Button btnDelete;
+    private Button btnDelete;
 
     public ManagerController(PassDbModel model, View view) {
-        this.model = model;
-        this.view = view;
-    }
-
-    public TableView<Password> getTable() {
-        return table;
-    }
-
-    public void setTable(TableView<Password> table) {
-        this.table = table;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
-    }
-
-    public PassDbModel getModel() {
-        return model;
-    }
-
-    public void setModel(PassDbModel model) {
-        this.model = model;
+        super(model, view);
     }
 
     @Override
@@ -100,10 +76,24 @@ public class ManagerController implements Initializable {
         loginColumn.setCellValueFactory(new PropertyValueFactory<>("login"));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
         passwordColumn.setCellFactory(column -> new TableCellView());
+
+        btnAdd.setOnAction(event -> {
+            try {
+                addBtnHandler(event);
+            } catch (IOException | SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         updateView();
     }
 
-    public void updateView() {
+    private void addBtnHandler(ActionEvent event) throws IOException, SQLException {
+        DialogView childView = new DialogView(view.getStage(), (ManagerView) view);
+        childView.show();
+    }
+
+    private void updateView() {
         List<Password> udpData = model.getPasswords();
         view.displayTable(udpData, table);
     }

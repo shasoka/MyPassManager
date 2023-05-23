@@ -17,9 +17,10 @@ public class ControllerFactory implements Callback<Class<?>, Object> {
     public Object call(Class<?> type) {
         if (type == LoginController.class) {
             return new LoginController(model, view);
-        }
-        else if (type == ManagerController.class) {
+        } else if (type == ManagerController.class) {
             return new ManagerController(model, view);
+        } else if (type == DialogController.class) {
+            return new DialogController(model, view);
         }
         return null;
     }

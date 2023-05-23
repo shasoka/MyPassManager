@@ -16,10 +16,7 @@ import java.util.ResourceBundle;
 
 import static manager.statics.Alert.showAlert;
 
-public class LoginController implements Initializable {
-
-    private View view;
-    private PassDbModel model;
+public class LoginController extends Controller implements Initializable {
 
     @FXML
     private Button enterBtn;
@@ -28,24 +25,7 @@ public class LoginController implements Initializable {
     private PasswordField pin;
 
     public LoginController(PassDbModel model, View view) {
-        this.model = model;
-        this.view = view;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(LogInView view) {
-        this.view = view;
-    }
-
-    public PassDbModel getModel() {
-        return model;
-    }
-
-    public void setModel(PassDbModel model) {
-        this.model = model;
+        super(model, view);
     }
 
     @Override

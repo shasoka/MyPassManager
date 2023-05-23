@@ -24,7 +24,7 @@ public abstract class View {
         this.stage = stage;
     }
 
-    public void show() throws IOException, SQLException {};
+    public void show() throws IOException, SQLException{};
 
     public void displayTable(List<Password> udpData, TableView<Password> table) {};
 
