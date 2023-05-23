@@ -52,14 +52,14 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         enterBtn.setOnAction(event -> {
             try {
-                handleLogin();
+                logInHandler();
             } catch (SQLException | IOException e) {
                 throw new RuntimeException(e);
             }
         });
     }
 
-    private void handleLogin() throws SQLException, IOException {
+    private void logInHandler() throws SQLException, IOException {
         String userInput = pin.getText();
         if (userInput.length() == 0) {
             showAlert("Empty pin! Try again.", "Log In Failed");

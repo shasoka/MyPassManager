@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import manager.controller.ControllerFactory;
-import manager.controller.ManagerController;
 import manager.model.PassDbModel;
 import manager.model.Password;
 
@@ -15,28 +14,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ManagerView implements View {
-
-    private Stage stage;
-
-    private ManagerController controller;
-
-    public void setController(ManagerController controller) {
-        this.controller = controller;
-    }
+public class ManagerView extends View {
 
     public ManagerView(Stage stage) {
-        this.stage = stage;
-    }
-
-    @Override
-    public Stage getStage() {
-        return stage;
-    }
-
-    @Override
-    public void setStage(Stage stage) {
-        this.stage = stage;
+        super(stage);
     }
 
     @Override
@@ -51,15 +32,13 @@ public class ManagerView implements View {
         loader.setControllerFactory(new ControllerFactory(PassDbModel.getInstance(), this));
         Parent root = loader.load();
 
-        stage.setTitle("Log In Window");
+        stage.setTitle("Password Manager");
         stage.setResizable(false);
         stage.setScene(new Scene(root));
         stage.show();
     }
 
-    @Override
-    public void displayTable(List<Password> updData) {
-        TableView<Password> table = controller.getTable();
+    public void displayTable(List<Password> updData, TableView<Password> table) {
         table.setItems(FXCollections.observableArrayList(updData));
         table.refresh();
     }

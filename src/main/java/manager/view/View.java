@@ -1,23 +1,31 @@
 package manager.view;
 
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import manager.controller.LoginController;
-import manager.controller.ManagerController;
 import manager.model.Password;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface View {
+public abstract class View {
 
-    default void displayTable(List<Password> updData) {}
+    protected Stage stage;
 
-    default void setController(ManagerController controller) {}
+    public View(Stage stage) {
+        this.stage = stage;
+    }
 
-    void show() throws IOException, SQLException;
+    public Stage getStage() {
+        return stage;
+    }
 
-    void setStage(Stage stage);
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
-    Stage getStage();
+    public void show() throws IOException, SQLException {};
+
+    public void displayTable(List<Password> udpData, TableView<Password> table) {};
+
 }

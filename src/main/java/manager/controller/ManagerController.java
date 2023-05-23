@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import manager.model.PassDbModel;
 import manager.model.Password;
+import manager.view.TableCellView;
 import manager.view.View;
 
 import java.net.URL;
@@ -98,12 +99,13 @@ public class ManagerController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         loginColumn.setCellValueFactory(new PropertyValueFactory<>("login"));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+        passwordColumn.setCellFactory(column -> new TableCellView());
         updateView();
     }
 
     public void updateView() {
         List<Password> udpData = model.getPasswords();
-        view.displayTable(udpData);
+        view.displayTable(udpData, table);
     }
 
 }

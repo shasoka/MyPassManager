@@ -12,43 +12,36 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="manager.controller.ManagerController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="manager.controller.ManagerController">
     <MenuBar fx:id="menuGeneral" VBox.vgrow="NEVER">
         <Menu fx:id="menuProfile" mnemonicParsing="false" text="Profile">
-            <MenuItem fx:id="subMenuProfile" mnemonicParsing="false" text="Change pin"/>
+            <MenuItem fx:id="subMenuProfile" mnemonicParsing="false" text="Change pin" />
         </Menu>
         <Menu fx:id="menuIE" mnemonicParsing="false" text="Import/Export">
-            <MenuItem fx:id="subMenuE" mnemonicParsing="false" text="Export"/>
-            <MenuItem fx:id="subMenuI" mnemonicParsing="false" text="Import"/>
+            <MenuItem fx:id="subMenuE" mnemonicParsing="false" text="Export" />
+            <MenuItem fx:id="subMenuI" mnemonicParsing="false" text="Import" />
         </Menu>
-        <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help"/>
+        <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help" />
     </MenuBar>
     <AnchorPane VBox.vgrow="ALWAYS">
-        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;"
-               text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f">
+        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Label>
         <HBox prefHeight="374.0" prefWidth="640.0">
-            <TableView fx:id="table" prefHeight="374.0" prefWidth="542.0">
+            <TableView fx:id="table" prefHeight="374.0" prefWidth="542.5">
                 <columns>
-                    <TableColumn fx:id="idColumn" editable="false" prefWidth="33.600006103515625" text="id"/>
-                    <TableColumn fx:id="nameColumn" editable="false" prefWidth="163.199951171875" text="name"/>
-                    <TableColumn fx:id="loginColumn" editable="false" minWidth="0.0" prefWidth="164.79998779296875"
-                                 text="login"/>
-                    <TableColumn fx:id="passwordColumn" editable="false" minWidth="0.0"
-                                 prefWidth="163.20001220703125" text="password"/>
+                    <TableColumn fx:id="idColumn" editable="false" prefWidth="33.600006103515625" text="id" />
+                    <TableColumn fx:id="nameColumn" editable="false" prefWidth="163.199951171875" text="name" />
+                    <TableColumn fx:id="loginColumn" editable="false" minWidth="0.0" prefWidth="164.79998779296875" text="login" />
+                    <TableColumn fx:id="passwordColumn" editable="false" minWidth="0.0" prefWidth="163.20001220703125" sortable="false" text="password" />
                 </columns>
             </TableView>
             <VBox prefHeight="374.0" prefWidth="129.0">
-                <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="124.0" prefWidth="114.0"
-                        snapToPixel="false" text="ADD"/>
-                <Button fx:id="btnEdit" mnemonicParsing="false" prefHeight="124.0" prefWidth="114.0"
-                        text="EDIT"/>
-                <Button fx:id="btnDelete" mnemonicParsing="false" prefHeight="125.0" prefWidth="114.0"
-                        text="DELETE"/>
+                <Button fx:id="btnAdd" mnemonicParsing="false" prefHeight="124.0" prefWidth="114.0" snapToPixel="false" text="ADD" />
+                <Button fx:id="btnEdit" mnemonicParsing="false" prefHeight="124.0" prefWidth="114.0" text="EDIT" />
+                <Button fx:id="btnDelete" mnemonicParsing="false" prefHeight="125.0" prefWidth="114.0" text="DELETE" />
             </VBox>
         </HBox>
     </AnchorPane>

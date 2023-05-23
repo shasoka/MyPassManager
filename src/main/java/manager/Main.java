@@ -2,8 +2,6 @@ package manager;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import manager.controller.LoginController;
-import manager.model.PassDbModel;
 import manager.view.LogInView;
 
 public class Main extends Application {

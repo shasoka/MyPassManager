@@ -10,22 +10,10 @@ import manager.model.PassDbModel;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class LogInView implements View {
-
-    private Stage stage;
+public class LogInView extends View {
 
     public LogInView(Stage stage) {
-        this.stage = stage;
-    }
-
-    @Override
-    public Stage getStage() {
-        return stage;
-    }
-
-    @Override
-    public void setStage(Stage stage) {
-        this.stage = stage;
+        super(stage);
     }
 
     @Override
