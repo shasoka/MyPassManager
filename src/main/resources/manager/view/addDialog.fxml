@@ -4,8 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="195.0"
-            prefWidth="264.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-<!--            fx:controller="manager.controller.DialogAddController">-->
+            prefWidth="264.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="manager.controller.dialog.DialogAddController">
     <GridPane layoutX="11.0" layoutY="14.0" prefHeight="147.0" prefWidth="242.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>

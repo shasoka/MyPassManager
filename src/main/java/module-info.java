@@ -17,6 +17,6 @@ module manager.mypassmanager {
     opens manager.model to javafx.fxml;
     opens manager to javafx.fxml;
     opens manager.statics to javafx.fxml;
-    exports manager.view.dialogView;
-    opens manager.view.dialogView to javafx.fxml;
+    exports manager.controller.dialog;
+    opens manager.controller.dialog to javafx.fxml;
 }

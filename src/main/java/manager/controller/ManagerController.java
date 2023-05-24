@@ -1,15 +1,21 @@
 package manager.controller;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import manager.model.PassDbModel;
 import manager.model.Password;
-import manager.view.dialogView.DialogAddView;
-import manager.view.TableCellView;
-import manager.view.View;
+import manager.view.*;
 
+import static manager.statics.Alert.showAlert;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -71,18 +77,24 @@ public class ManagerController extends Controller {
         return table;
     }
 
-    public void setTable(TableView<Password> table) {
-        this.table = table;
+    public Password getSelectedItem() {
+        return table.getSelectionModel().getSelectedItem();
+    }
+
+    public void clearSelectedItem() {
+        table.getSelectionModel().clearSelection();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Инициализация ячеек таблицы
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         loginColumn.setCellValueFactory(new PropertyValueFactory<>("login"));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
         passwordColumn.setCellFactory(column -> new TableCellView());
 
+        // Хендлер для кнопки добавления
         btnAdd.setOnAction(event -> {
             try {
                 addBtnHandler(event);
@@ -91,6 +103,7 @@ public class ManagerController extends Controller {
             }
         });
 
+        // Хендлер для кнопки изменения
         btnEdit.setOnAction(event -> {
             try {
                 editBtnHandler(event);
@@ -99,14 +112,54 @@ public class ManagerController extends Controller {
             }
         });
 
+        // Хендлер для кнопки удаления
         btnDelete.setOnAction(this::delBtnHandler);
 
+        // Хендлер для меню изменения пина для входа
+        subMenuProfile.setOnAction(actionEvent -> {
+            try {
+                changePinHandler(actionEvent);
+            } catch (SQLException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        subMenuI.setOnAction(this::importHandler);
+        subMenuE.setOnAction(this::exportHandler);
+
+        // Отображение данных из бд на старте
         displayInitialData();
     }
 
-    private void editBtnHandler(ActionEvent event) throws SQLException, IOException {
-        DialogAddView childView = new DialogAddView(view.getStage(), this);
+    private void exportHandler(ActionEvent actionEvent) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        Stage stage = new Stage();
+        File selectedDirectory = directoryChooser.showDialog(stage);
+        System.out.println(selectedDirectory);
+    }
+
+    private void importHandler(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files (*.csv)", "*.csv"));
+        Stage fdStage = new Stage();
+        File selected = fileChooser.showOpenDialog(fdStage);
+    }
+
+    private void changePinHandler(ActionEvent actionEvent) throws SQLException, IOException {
+        ChangePinView childView = new ChangePinView(view.getStage(), this);
         childView.show();
+        showTooltip("Pin changed!");
+    }
+
+    private void editBtnHandler(ActionEvent event) throws SQLException, IOException {
+        Password selected = getSelectedItem();
+        if (selected != null) {
+            DialogEditView childView = new DialogEditView(view.getStage(), this);
+            childView.show();
+        }
+        else {
+            showAlert("Select some row to edit it.", "No row seleceted.");
+        }
     }
 
     private void addBtnHandler(ActionEvent event) throws IOException, SQLException {
@@ -115,15 +168,32 @@ public class ManagerController extends Controller {
     }
 
     private void displayInitialData() {
-        List<Password> udpData = model.getPasswords();
-        view.displayTable(udpData, table);
+        List<Password> data = model.getPasswords();
+        view.displayTable(data, table);
     }
 
     private void delBtnHandler(ActionEvent event) {
-        Password selectedItem = table.getSelectionModel().getSelectedItem();
-        int id = selectedItem.getId();
-        model.deletePassword(id);
-        view.deleteTableRow(table, id - 1);
+        Password selected = getSelectedItem();
+        if (selected != null) {
+            int id = selected.getId();
+            model.deletePassword(id);
+            view.deleteTableRow(table, id - 1);
+            table.getSelectionModel().clearSelection();
+        } else {
+            showAlert("Select some row to delete it.", "No row seleceted.");
+        }
+    }
+
+    private void showTooltip(String lable) {
+        Tooltip tooltip = new Tooltip(lable);
+        tooltip.show(view.getStage(), view.getStage().getX() + view.getStage().getWidth() / 2 - 20,
+                view.getStage().getY() + view.getStage().getHeight() / 2 - 20);
+
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished(e -> {
+            tooltip.hide();
+        });
+        delay.play();
     }
 
 }

@@ -1,4 +1,4 @@
-package manager.controller;
+package manager.controller.dialog;
 
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import manager.controller.ManagerController;
 import manager.model.PassDbModel;
 import manager.model.Password;
 import manager.view.View;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
 import static manager.encoder.Encoder.encrypt;
 import static manager.statics.Alert.showAlert;
 
-public class DialogAddController extends Controller implements Initializable {
+public class DialogAddController extends ManagerController {
 
     @FXML
     private Button submit;
@@ -35,6 +36,7 @@ public class DialogAddController extends Controller implements Initializable {
         super(model, view);
     }
 
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         submit.setOnAction(this::submitHandler);
 
@@ -54,7 +56,7 @@ public class DialogAddController extends Controller implements Initializable {
         });
     }
 
-    protected void fieldHandler(Observable observable, String oldVal, String newVal, TextField field) {
+    private void fieldHandler(Observable observable, String oldVal, String newVal, TextField field) {
         if (newVal.length() == 0) {
             field.setStyle("-fx-text-box-border: red; -fx-focus-color: red;");
         } else {
@@ -62,7 +64,7 @@ public class DialogAddController extends Controller implements Initializable {
         }
     }
 
-    protected void submitHandler(ActionEvent actionEvent) {
+    private void submitHandler(ActionEvent actionEvent) {
         String newName = nameInput.getText();
         String newLogin = loginInput.getText();
         String newPassword = passwordInput.getText();

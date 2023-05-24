@@ -1,30 +1,28 @@
-package manager.view.dialogView;
+package manager.view;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import manager.controller.DialogAddController;
+import manager.controller.ControllerFactory;
 import manager.controller.ManagerController;
 import manager.model.PassDbModel;
-import manager.view.View;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class DialogView extends View {
+public class DialogEditView extends View {
 
-    public DialogView(Stage stage, ManagerController parent) {
+    public DialogEditView(Stage stage, ManagerController parent) {
         super(stage, parent);
     }
 
     @Override
     public void show() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/manager/view/addDialog.fxml"));
-        loader.setController(new DialogAddController(PassDbModel.getInstance(), this));
-//        loader.setControllerFactory(new ControllerFactory(PassDbModel.getInstance(), this));
+        loader.setLocation(getClass().getResource("editDialog.fxml"));
+        loader.setControllerFactory(new ControllerFactory(PassDbModel.getInstance(), this));
         Parent dialog = loader.load();
 
         Stage parentStage = stage;
@@ -38,4 +36,5 @@ public class DialogView extends View {
 
         parentStage.getScene().getRoot().setDisable(false);
     }
+
 }

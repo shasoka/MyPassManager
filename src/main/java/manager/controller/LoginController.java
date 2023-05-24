@@ -1,5 +1,6 @@
 package manager.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -37,6 +38,7 @@ public class LoginController extends Controller {
             }
         });
 
+        pin.setStyle("-fx-text-box-border: green; -fx-focus-color: lightgreen;");
         pin.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 try {
@@ -58,6 +60,7 @@ public class LoginController extends Controller {
             managerView.show();
         } else {
             showAlert("Incorrect pin! Try again.", "Log In Failed");
+            pin.clear();
         }
     }
 

@@ -15,7 +15,7 @@ public class TableCellView extends TableCell<Password, String> {
 
     private boolean tooltipActive = false;
 
-    public final String HIDDEN_PASS = "*****";
+    public static final String HIDDEN_PASS = "*****";
 
     @Override
     protected void updateItem(String password, boolean empty) {

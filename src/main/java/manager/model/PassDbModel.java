@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static manager.encoder.Encoder.decrypt;
+import static manager.encoder.Encoder.encrypt;
+
 public class PassDbModel {
 
     private static final String CON_STR = "jdbc:sqlite:passwords.db";
@@ -44,13 +47,17 @@ public class PassDbModel {
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next()) {
                 password = resultSet.getString("password");
-                System.out.println("Pin successfully checked.");
+                System.out.println("Got pin from db.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return pin.equals(password);
+        try {
+            return pin.equals(decrypt(password));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int getTableSize() {
@@ -91,7 +98,7 @@ public class PassDbModel {
     public void addPassword(String name, String login, String password, int id) {
         String query = "INSERT INTO passdb (id, name, login, password) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
-            statement.setString(1, String.valueOf(id));
+            statement.setInt(1, id);
             statement.setString(2, name);
             statement.setString(3, login);
             statement.setString(4, password);
@@ -107,13 +114,29 @@ public class PassDbModel {
     public void deletePassword(int id) {
         String query = "DELETE FROM passdb WHERE id = ?";
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
-            statement.setString(1, String.valueOf(id));
+            statement.setInt(1, id);
             int rowsDelete = statement.executeUpdate();
             if (rowsDelete > 0) {
                 System.out.println("Row successfully deleted.");
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void updatePassword(int id, String name, String login, String password) {
+        String query = "UPDATE passdb SET name = ?, login = ?, password = ? WHERE id = ?";
+        try (PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setString(1, name);
+            statement.setString(2, login);
+            statement.setString(3, encrypt(password));
+            statement.setInt(4, id);
+            int rowsUpd = statement.executeUpdate();
+            if (rowsUpd > 0) {
+                System.out.println("Row successfully edited.");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
