@@ -20,11 +20,6 @@ public abstract class Controller implements Initializable {
     protected PassDbModel model;  // Модель
 
     /**
-     * Конструктор без параметров класса Controller.
-     */
-    protected Controller() {}
-
-    /**
      * Конструктор класса Controller.
      *
      * @param model модель базы данных

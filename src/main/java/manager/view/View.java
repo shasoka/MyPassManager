@@ -28,15 +28,6 @@ public abstract class View {
     }
 
     /**
-     * Устанавливает родительский контроллер.
-     *
-     * @param parent Родительский контроллер.
-     */
-    public void setParent(ManagerController parent) {
-        this.parent = parent;
-    }
-
-    /**
      * Конструктор представления.
      *
      * @param stage  Сцена, связанная с представлением.
@@ -54,15 +45,6 @@ public abstract class View {
      */
     public Stage getStage() {
         return stage;
-    }
-
-    /**
-     * Устанавливает сцену представления.
-     *
-     * @param stage Сцена представления.
-     */
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     /**

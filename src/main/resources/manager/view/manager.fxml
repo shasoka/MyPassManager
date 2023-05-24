@@ -4,15 +4,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="manager.controller.ManagerController">
-    <MenuBar fx:id="menuGeneral" VBox.vgrow="NEVER">
-        <Menu fx:id="menuProfile" mnemonicParsing="false" text="Profile">
+    <MenuBar VBox.vgrow="NEVER">
+        <Menu mnemonicParsing="false" text="Profile">
             <MenuItem fx:id="subMenuProfile" mnemonicParsing="false" text="Change pin" />
         </Menu>
-        <Menu fx:id="menuIE" mnemonicParsing="false" text="Import/Export">
+        <Menu mnemonicParsing="false" text="Import/Export">
             <MenuItem fx:id="subMenuE" mnemonicParsing="false" text="Export" />
             <MenuItem fx:id="subMenuI" mnemonicParsing="false" text="Import" />
         </Menu>
-        <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
+        <Menu mnemonicParsing="false" text="Help">
                 <MenuItem fx:id="subMenuHelp" mnemonicParsing="false" text="About" />
         </Menu>
     </MenuBar>
