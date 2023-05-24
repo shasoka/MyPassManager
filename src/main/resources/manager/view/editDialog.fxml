@@ -26,23 +26,22 @@
         <Label alignment="TOP_RIGHT" prefHeight="14.0" prefWidth="179.0" text="New password:" GridPane.rowIndex="2" />
         <TextField fx:id="nameInput" prefHeight="22.0" prefWidth="371.0" GridPane.columnIndex="1" />
         <TextField fx:id="loginInput" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <HBox prefWidth="122.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-         <children>
-              <TextField fx:id="passwordInput" prefWidth="100.0">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <HBox.margin>
-                  <Insets top="13.0" />
-               </HBox.margin>
-            </TextField>
-            <Button fx:id="tmpShow" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="22.0" prefWidth="0.0" text="*" textAlignment="CENTER">
-               <HBox.margin>
-                  <Insets top="13.0" />
-               </HBox.margin>
+        <HBox prefWidth="122.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="passwordInput" prefWidth="100.0">
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+                <HBox.margin>
+                    <Insets top="13.0"/>
+                </HBox.margin>
+          </TextField>
+            <Button fx:id="tmpShow" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false"
+                    prefHeight="22.0" prefWidth="0.0" text="*" textAlignment="CENTER">
+                <HBox.margin>
+                    <Insets top="13.0"/>
+                </HBox.margin>
             </Button>
-         </children>
-      </HBox>
+        </HBox>
     </GridPane>
     <Button fx:id="submit" layoutX="198.0" layoutY="161.0" mnemonicParsing="false" text="Submit" />
 </AnchorPane>

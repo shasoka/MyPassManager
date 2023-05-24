@@ -1,15 +1,9 @@
 package manager.controller.dialog;
 
-import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
-import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
 import manager.controller.ManagerController;
 import manager.model.PassDbModel;
 import manager.view.View;
@@ -18,11 +12,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
-import static manager.statics.Alert.showAlert;
+import static manager.view.statics.Alert.showAlert;
 
+/**
+ * Контроллер для диалогового окна изменения пин-кода.
+ * Расширяет класс ManagerController.
+ */
 public class ChangePinController extends ManagerController {
-
-    private boolean changed = false;
 
     @FXML
     public PasswordField oldPin;
@@ -33,10 +29,22 @@ public class ChangePinController extends ManagerController {
     @FXML
     public Button submit;
 
+    /**
+     * Конструктор класса ChangePinController.
+     *
+     * @param model модель базы данных
+     * @param view  объект представления
+     */
     public ChangePinController(PassDbModel model, View view) {
         super(model, view);
     }
 
+    /**
+     * Переопределенный метод инициализации контроллера.
+     *
+     * @param url URL, вызвавший инициализацию.
+     * @param resourceBundle Связанный с контроллером ResourceBundle.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Stream.of(oldPin, newPin).forEach(
@@ -52,6 +60,11 @@ public class ChangePinController extends ManagerController {
 
     }
 
+    /**
+     * Обработчик события нажатия на кнопку подтверждения.
+     *
+     * @param event объект ActionEvent
+     */
     private void submitHandler(ActionEvent event) {
         String oldP = oldPin.getText();
         String newP = newPin.getText();

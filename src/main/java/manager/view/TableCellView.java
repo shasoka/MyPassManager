@@ -9,19 +9,27 @@ import javafx.util.Duration;
 import manager.controller.TableCellController;
 import manager.model.Password;
 
+/**
+ * Пользовательский класс ячейки таблицы паролей.
+ */
 public class TableCellView extends TableCell<Password, String> {
 
-    private TableCellController controller;
+    private boolean tooltipActive = false; // Флаг активности всплывающей подсказки
 
-    private boolean tooltipActive = false;
+    public static final String HIDDEN_PASS = "*****"; // Заменяемый текст пароля
 
-    public static final String HIDDEN_PASS = "*****";
-
+    /**
+     * Обновляет ячейку таблицы.
+     *
+     * @param password Новый пароль.
+     * @param empty    Флаг, указывающий пуста ли ячейка.
+     */
     @Override
     protected void updateItem(String password, boolean empty) {
         super.updateItem(password, empty);
 
-        controller = new TableCellController(this);
+        // Контроллер ячейки таблицы
+        TableCellController controller = new TableCellController(this);
         controller.initialize(null, null);
 
         if (!empty) {
@@ -31,6 +39,11 @@ public class TableCellView extends TableCell<Password, String> {
         }
     }
 
+    /**
+     * Отображает всплывающую подсказку при нажатии на кнопку показа пароля.
+     *
+     * @param event Событие нажатия на кнопку
+     */
     public void showToolptip(MouseEvent event) {
         if (!tooltipActive) {
             Tooltip tooltip = new Tooltip("Password copied!");

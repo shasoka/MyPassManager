@@ -12,7 +12,9 @@
             <MenuItem fx:id="subMenuE" mnemonicParsing="false" text="Export" />
             <MenuItem fx:id="subMenuI" mnemonicParsing="false" text="Import" />
         </Menu>
-        <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help" />
+        <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
+                <MenuItem fx:id="subMenuHelp" mnemonicParsing="false" text="About" />
+        </Menu>
     </MenuBar>
     <AnchorPane VBox.vgrow="ALWAYS">
         <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f">

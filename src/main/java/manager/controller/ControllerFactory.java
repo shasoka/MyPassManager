@@ -7,15 +7,31 @@ import manager.controller.dialog.DialogEditController;
 import manager.model.PassDbModel;
 import manager.view.View;
 
+/**
+ * Фабрика контроллеров.
+ * Определяет создание экземпляров контроллеров в зависимости от переданного класса.
+ */
 public class ControllerFactory implements Callback<Class<?>, Object> {
-    private final PassDbModel model;
-    private final View view;
+    private final PassDbModel model;  // Модель
+    private final View view;  // Представление, связанное с контроллером
 
+    /**
+     * Конструктор класса ControllerFactory.
+     *
+     * @param model модель базы данных.
+     * @param view  представление.
+     */
     public ControllerFactory(PassDbModel model, View view) {
         this.model = model;
         this.view = view;
     }
 
+    /**
+     * Метод создания экземпляра контроллера на основе переданного класса.
+     *
+     * @param type класс контроллера.
+     * @return экземпляр контроллера.
+     */
     @Override
     public Object call(Class<?> type) {
         if (type == LoginController.class) {
@@ -31,5 +47,4 @@ public class ControllerFactory implements Callback<Class<?>, Object> {
         }
         return null;
     }
-
 }

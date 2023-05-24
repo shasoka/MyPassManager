@@ -10,38 +10,59 @@ import java.util.List;
 import static manager.encoder.Encoder.decrypt;
 import static manager.encoder.Encoder.encrypt;
 
+/**
+ * Класс PassDbModel представляет модель базы данных для паролей.
+ */
 public class PassDbModel {
 
-    private static final String CON_STR = "jdbc:sqlite:passwords.db";
+    private static final String CON_STR = "jdbc:sqlite:passwords.db";  // URL для соединения
 
-    private static PassDbModel instance = null;
+    private static PassDbModel instance = null;  // Инстанс синглтона модели
 
-    private Connection connection;
+    private final Connection connection;  // Объект соединения
 
+    /**
+     * Получает экземпляр класса PassDbModel.
+     *
+     * @return Экземпляр класса PassDbModel.
+     * @throws SQLException если возникает ошибка при подключении к базе данных.
+     */
     public static synchronized PassDbModel getInstance() throws SQLException {
-            if (instance == null) {
-                instance = new PassDbModel();
-            }
-            return instance;
+        if (instance == null) {
+            instance = new PassDbModel();
+        }
+        return instance;
     }
 
+    /**
+     * Конструктор класса PassDbModel.
+     *
+     * @throws SQLException если возникает ошибка при подключении к базе данных.
+     */
     private PassDbModel() throws SQLException {
         DriverManager.registerDriver(new JDBC());
         this.connection = DriverManager.getConnection(CON_STR);
     }
 
-    public Connection getConnection() {
-        return connection;
+    /**
+     * Метод, закрывающий соединение с базой данных. Используется при выходе из приложения.
+     */
+    public void kill() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
+    /**
+     * Проверяет пин-код из базы данных.
+     *
+     * @param pin Пин-код для проверки.
+     * @return true, если пин-код совпадает с пин-кодом в базе данных, иначе false.
+     */
     public boolean checkPinFromDb(String pin) {
-
         String password = null;
-
         try (Statement statement = connection.createStatement()) {
             String query = "SELECT password FROM passdb WHERE id = 0";
             ResultSet resultSet = statement.executeQuery(query);
@@ -60,6 +81,11 @@ public class PassDbModel {
         }
     }
 
+    /**
+     * Возвращает размер таблицы паролей.
+     *
+     * @return Размер таблицы паролей.
+     */
     public int getTableSize() {
         try (Statement statement = connection.createStatement()) {
             String query = "SELECT COUNT(*) AS count FROM passdb";
@@ -75,6 +101,11 @@ public class PassDbModel {
         return -1;
     }
 
+    /**
+     * Возвращает список паролей из базы данных.
+     *
+     * @return Список паролей.
+     */
     public List<Password> getPasswords() {
         try (Statement statement = connection.createStatement()) {
             List<Password> passwords = new ArrayList<>();
@@ -86,7 +117,7 @@ public class PassDbModel {
                         resultSet.getString("login"),
                         resultSet.getString("password"));
                 passwords.add(password);
-                System.out.printf("Successfully got row: %s\n", password.toString());
+                System.out.printf("Successfully got row: %s\n", password);
             }
             return passwords;
         } catch (SQLException e) {
@@ -95,6 +126,14 @@ public class PassDbModel {
         }
     }
 
+    /**
+     * Добавляет пароль в базу данных.
+     *
+     * @param name     Название сайта.
+     * @param login    Логин.
+     * @param password Пароль.
+     * @param id       Идентификатор пароля.
+     */
     public void addPassword(String name, String login, String password, int id) {
         String query = "INSERT INTO passdb (id, name, login, password) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
@@ -111,6 +150,11 @@ public class PassDbModel {
         }
     }
 
+    /**
+     * Удаляет пароль из базы данных.
+     *
+     * @param id Идентификатор пароля.
+     */
     public void deletePassword(int id) {
         String query = "DELETE FROM passdb WHERE id = ?";
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
@@ -124,6 +168,14 @@ public class PassDbModel {
         }
     }
 
+    /**
+     * Обновляет пароль в базе данных.
+     *
+     * @param id       Идентификатор пароля.
+     * @param name     Название сайта.
+     * @param login    Логин.
+     * @param password Пароль.
+     */
     public void updatePassword(int id, String name, String login, String password) {
         String query = "UPDATE passdb SET name = ?, login = ?, password = ? WHERE id = ?";
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
