@@ -1,14 +1,20 @@
 package manager.controller;
 
+import javafx.fxml.Initializable;
 import manager.model.PassDbModel;
 import manager.view.LogInView;
 import manager.view.View;
 
-public abstract class Controller {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public abstract class Controller implements Initializable {
 
     protected View view;
 
     protected PassDbModel model;
+
+    protected Controller() {}
 
     public Controller(PassDbModel model, View view) {
         this.model = model;
@@ -30,5 +36,8 @@ public abstract class Controller {
     public void setModel(PassDbModel model) {
         this.model = model;
     }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
 }

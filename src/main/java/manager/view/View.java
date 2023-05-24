@@ -2,7 +2,6 @@ package manager.view;
 
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import manager.controller.DialogController;
 import manager.controller.ManagerController;
 import manager.model.Password;
 
@@ -41,6 +40,8 @@ public abstract class View {
 
     public void displayTable(List<Password> udpData, TableView<Password> table) {};
 
-    public void updateTable(Password password, TableView<Password> table) {}
+    public void addTableRow(Password password, TableView<Password> table) {}
+
+    public void deleteTableRow(TableView<Password> table, int id) {}
 
 }

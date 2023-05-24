@@ -1,9 +1,7 @@
 package manager.model;
 
-import manager.encoder.Encoder;
 import org.sqlite.JDBC;
 
-import static manager.encoder.Encoder.encrypt;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,7 +40,7 @@ public class PassDbModel {
         String password = null;
 
         try (Statement statement = connection.createStatement()) {
-            String query = "SELECT password FROM passwords WHERE id = 0";
+            String query = "SELECT password FROM passdb WHERE id = 0";
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next()) {
                 password = resultSet.getString("password");
@@ -57,7 +55,7 @@ public class PassDbModel {
 
     public int getTableSize() {
         try (Statement statement = connection.createStatement()) {
-            String query = "SELECT COUNT(*) AS count FROM passwords";
+            String query = "SELECT COUNT(*) AS count FROM passdb";
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next()) {
                 System.out.println("Size successfully counted.");
@@ -73,7 +71,7 @@ public class PassDbModel {
     public List<Password> getPasswords() {
         try (Statement statement = connection.createStatement()) {
             List<Password> passwords = new ArrayList<>();
-            String query = "SELECT id, name, login, password FROM passwords WHERE id <> 0";
+            String query = "SELECT id, name, login, password FROM passdb WHERE id <> 0";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 Password password = new Password(resultSet.getInt("id"),
@@ -90,15 +88,29 @@ public class PassDbModel {
         }
     }
 
-    public void addPassword(String name, String login, String password) {
-        String query = "INSERT INTO passwords (name, login, password) VALUES (?, ?, ?)";
+    public void addPassword(String name, String login, String password, int id) {
+        String query = "INSERT INTO passdb (id, name, login, password) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
-            statement.setString(1, name);
-            statement.setString(2, login);
-            statement.setString(3, password);
+            statement.setString(1, String.valueOf(id));
+            statement.setString(2, name);
+            statement.setString(3, login);
+            statement.setString(4, password);
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
                 System.out.println("Row successfully added.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletePassword(int id) {
+        String query = "DELETE FROM passdb WHERE id = ?";
+        try (PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setString(1, String.valueOf(id));
+            int rowsDelete = statement.executeUpdate();
+            if (rowsDelete > 0) {
+                System.out.println("Row successfully deleted.");
             }
         } catch (Exception e) {
             e.printStackTrace();

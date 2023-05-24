@@ -2,9 +2,6 @@ package manager.controller;
 
 import javafx.util.Callback;
 import manager.model.PassDbModel;
-import manager.view.DialogView;
-import manager.view.LogInView;
-import manager.view.ManagerView;
 import manager.view.View;
 
 public class ControllerFactory implements Callback<Class<?>, Object> {
@@ -22,8 +19,8 @@ public class ControllerFactory implements Callback<Class<?>, Object> {
             return new LoginController(model, view);
         } else if (type == ManagerController.class) {
             return new ManagerController(model, view);
-        } else if (type == DialogController.class) {
-            return new DialogController(model, view);
+        } else if (type == DialogAddController.class) {
+            return new DialogAddController(model, view);
         }
         return null;
     }

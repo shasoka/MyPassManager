@@ -24,9 +24,11 @@ public class TableCellView extends TableCell<Password, String> {
         controller = new TableCellController(this);
         controller.initialize(null, null);
 
-        setText(HIDDEN_PASS);
-        controller.getShowPasswordButton().setPrefWidth(50);
-        setGraphic(controller.getShowPasswordButton());
+        if (!empty) {
+            setText(HIDDEN_PASS);
+            controller.getShowPasswordButton().setPrefWidth(50);
+            setGraphic(controller.getShowPasswordButton());
+        }
     }
 
     public void showToolptip(MouseEvent event) {

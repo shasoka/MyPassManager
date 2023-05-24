@@ -2,13 +2,11 @@ package manager.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import manager.model.PassDbModel;
 import manager.model.Password;
-import manager.view.DialogView;
-import manager.view.ManagerView;
+import manager.view.dialogView.DialogAddView;
 import manager.view.TableCellView;
 import manager.view.View;
 
@@ -18,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ManagerController extends Controller implements Initializable {
+public class ManagerController extends Controller {
 
     @FXML
     private MenuBar menuGeneral;
@@ -42,8 +40,7 @@ public class ManagerController extends Controller implements Initializable {
     private MenuItem subMenuProfile;
 
     @FXML
-    // protected для того, чтобы видеть это поле из дочерних контроллеров
-    protected TableView<Password> table;
+    private TableView<Password> table;
 
     @FXML
     private TableColumn<Password, Integer> idColumn;
@@ -70,6 +67,14 @@ public class ManagerController extends Controller implements Initializable {
         super(model, view);
     }
 
+    public TableView<Password> getTable() {
+        return table;
+    }
+
+    public void setTable(TableView<Password> table) {
+        this.table = table;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -86,17 +91,39 @@ public class ManagerController extends Controller implements Initializable {
             }
         });
 
+        btnEdit.setOnAction(event -> {
+            try {
+                editBtnHandler(event);
+            } catch (SQLException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        btnDelete.setOnAction(this::delBtnHandler);
+
         displayInitialData();
     }
 
+    private void editBtnHandler(ActionEvent event) throws SQLException, IOException {
+        DialogAddView childView = new DialogAddView(view.getStage(), this);
+        childView.show();
+    }
+
     private void addBtnHandler(ActionEvent event) throws IOException, SQLException {
-        DialogView childView = new DialogView(view.getStage(), this);
+        DialogAddView childView = new DialogAddView(view.getStage(), this);
         childView.show();
     }
 
     private void displayInitialData() {
         List<Password> udpData = model.getPasswords();
         view.displayTable(udpData, table);
+    }
+
+    private void delBtnHandler(ActionEvent event) {
+        Password selectedItem = table.getSelectionModel().getSelectedItem();
+        int id = selectedItem.getId();
+        model.deletePassword(id);
+        view.deleteTableRow(table, id - 1);
     }
 
 }

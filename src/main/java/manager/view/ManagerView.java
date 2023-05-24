@@ -1,6 +1,8 @@
 package manager.view;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -43,8 +45,18 @@ public class ManagerView extends View {
         table.refresh();
     }
 
-    public void updateTable(Password password, TableView<Password> table) {
+    public void addTableRow(Password password, TableView<Password> table) {
         table.getItems().add(password);
+        table.refresh();
+    }
+
+    public void deleteTableRow(TableView<Password> table, int id) {
+        ObservableList<Password> data = table.getItems();
+        data.remove(id);
+        for (int i = id; i < data.size(); i++) {
+            Password password = data.get(i);
+            password.setId(password.getId() - 1);
+        }
         table.refresh();
     }
 

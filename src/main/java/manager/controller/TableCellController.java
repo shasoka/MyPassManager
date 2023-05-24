@@ -9,19 +9,16 @@ import javafx.scene.input.MouseEvent;
 import manager.encoder.Encoder;
 import manager.view.TableCellView;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import java.net.URL;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
+
+import static manager.encoder.Encoder.decrypt;
 
 public class TableCellController implements Initializable {
 
     private TableCellView view;
 
-    private Button showPasswordButton = new Button("Show");
+    private final Button showPasswordButton = new Button("Show");
 
     private boolean hidden = true;
 
@@ -31,10 +28,6 @@ public class TableCellController implements Initializable {
 
     public Button getShowPasswordButton() {
         return showPasswordButton;
-    }
-
-    public void setShowPasswordButton(Button showPasswordButton) {
-        this.showPasswordButton = showPasswordButton;
     }
 
     public void setView(TableCellView view) {
@@ -56,7 +49,11 @@ public class TableCellController implements Initializable {
             String password = view.getItem();
             Clipboard clipboard = Clipboard.getSystemClipboard();
             ClipboardContent content = new ClipboardContent();
-            content.putString(password);
+            try {
+                content.putString(decrypt(password));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             clipboard.setContent(content);
             view.showToolptip(event);
         }
@@ -65,7 +62,7 @@ public class TableCellController implements Initializable {
     private void showBtnHandler(ActionEvent event) {
         if (hidden) {
             try {
-                view.setText(Encoder.decrypt(view.getItem()));
+                view.setText(decrypt(view.getItem()));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

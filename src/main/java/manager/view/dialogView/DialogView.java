@@ -1,15 +1,14 @@
-package manager.view;
+package manager.view.dialogView;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import manager.controller.ControllerFactory;
+import manager.controller.DialogAddController;
 import manager.controller.ManagerController;
 import manager.model.PassDbModel;
-import manager.model.Password;
+import manager.view.View;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,8 +22,9 @@ public class DialogView extends View {
     @Override
     public void show() throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("addDialog.fxml"));
-        loader.setControllerFactory(new ControllerFactory(PassDbModel.getInstance(), this));
+        loader.setLocation(getClass().getResource("/manager/view/addDialog.fxml"));
+        loader.setController(new DialogAddController(PassDbModel.getInstance(), this));
+//        loader.setControllerFactory(new ControllerFactory(PassDbModel.getInstance(), this));
         Parent dialog = loader.load();
 
         Stage parentStage = stage;
@@ -38,5 +38,4 @@ public class DialogView extends View {
 
         parentStage.getScene().getRoot().setDisable(false);
     }
-
 }

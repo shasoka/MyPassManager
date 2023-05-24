@@ -1,11 +1,10 @@
 package manager.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.input.KeyCode;
 import manager.model.PassDbModel;
-import manager.view.LogInView;
 import manager.view.ManagerView;
 import manager.view.View;
 
@@ -16,7 +15,7 @@ import java.util.ResourceBundle;
 
 import static manager.statics.Alert.showAlert;
 
-public class LoginController extends Controller implements Initializable {
+public class LoginController extends Controller {
 
     @FXML
     private Button enterBtn;
@@ -35,6 +34,16 @@ public class LoginController extends Controller implements Initializable {
                 logInHandler();
             } catch (SQLException | IOException e) {
                 throw new RuntimeException(e);
+            }
+        });
+
+        pin.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    logInHandler();
+                } catch (SQLException | IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
